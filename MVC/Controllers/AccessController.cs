@@ -21,14 +21,6 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-
-            if(claimUser == null)
-            {
-                ViewData["Message"] = "Jesteś już zalogowany";
-                return RedirectToAction("Index", "Home");
-            }
-
             return View();
         }
 
@@ -70,14 +62,6 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-
-            if (claimUser == null)
-            {
-                ViewData["Message"] = "Jesteś już zalogowany";
-                return RedirectToAction("Index", "Home");
-            }
-
             return View();
         }
 
@@ -88,9 +72,11 @@ namespace MVC.Controllers
 
             if (data.Success)
             {
-
+                ViewData["Message"] = data.Message;
+                return RedirectToAction("LogIn", "Access");
             }
 
+            ViewData["Message"] = data.Message;
             return View();
         }
 

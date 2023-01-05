@@ -26,13 +26,13 @@ namespace MVC.Services
 
         public async Task<BaseResponse<UserInfoModel>> LogIn(UserLoginModel userLoginModel)
         {
-            var dataSalt = await _userRepository.GetUserSalt(userLoginModel.Email);
+            var dataSalt = await _userRepository.GetUserByEmail(userLoginModel.Email);
             
             if (dataSalt.Success)
             {
                 if(dataSalt.Data != null)
                 {
-                    var dataUser = await _userRepository.GetUserByEmailAndPassword(userLoginModel.Email, HashPassword($"{userLoginModel.Password}{dataSalt.Data}"));
+                    var dataUser = await _userRepository.GetUserByEmailAndPassword(userLoginModel.Email, HashPassword($"{userLoginModel.Password}{dataSalt.Data.Salt}"));
 
                     if (dataUser.Success)
                     {
@@ -73,22 +73,37 @@ namespace MVC.Services
 
         public async Task<BaseResponse<int>> Register(UserRegisterModel userRegisterModel)
         {
-            //Trzeba dodac zabezpieczenie by nie tworzyć z takim samym mailem
-            var user = _mapper.Map<User>(userRegisterModel);
+            var userExist = await _userRepository.GetUserByEmail(userRegisterModel.Email);
 
-            user.Salt = DateTime.Now.ToString();
-            user.Password = HashPassword($"{userRegisterModel.Password}{user.Salt}");
-
-            var data = await _userRepository.CreateUser(user);
-
-            if(data.Success)
+            if (userExist.Success)
             {
-                if(data.Data > 0)
+                if (userExist.Data == null)
+                {
+                    var user = _mapper.Map<User>(userRegisterModel);
+
+                    user.Salt = DateTime.Now.ToString();
+                    user.Password = HashPassword($"{userRegisterModel.Password}{user.Salt}");
+
+                    var data = await _userRepository.CreateUser(user);
+
+                    if (data.Success)
+                    {
+                        if (data.Data > 0)
+                        {
+                            return new BaseResponse<int>
+                            {
+                                Data = data.Data,
+                                Message = "Zarejestrowano"
+                            };
+                        }
+                    }
+                }
+                else
                 {
                     return new BaseResponse<int>
                     {
-                        Data = data.Data,
-                        Message = "Zarejestrowano"
+                        Success = false,
+                        Message = "Konto z takim Emailem już istnieje"
                     };
                 }
             }

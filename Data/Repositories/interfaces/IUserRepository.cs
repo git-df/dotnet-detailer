@@ -11,7 +11,7 @@ namespace Data.Repositories.interfaces
     public interface IUserRepository
     {
         Task<BaseResponse<User>> GetUserByEmailAndPassword(string email, string password);
-        Task<BaseResponse<string>> GetUserSalt(string email);
+        Task<BaseResponse<User>> GetUserByEmail(string email);
         Task<BaseResponse<int>> CreateUser(User user);
     }
 }
