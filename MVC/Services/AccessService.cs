@@ -81,7 +81,7 @@ namespace MVC.Services
                 {
                     var user = _mapper.Map<User>(userRegisterModel);
 
-                    user.Salt = DateTime.Now.ToString();
+                    user.Salt = SaltGenerator();
                     user.Password = HashPassword($"{userRegisterModel.Password}{user.Salt}");
 
                     var data = await _userRepository.CreateUser(user);
@@ -118,12 +118,17 @@ namespace MVC.Services
         string HashPassword(string password)
         {
             SHA256 sHA256 = SHA256.Create();
-
             var passwordBytes = Encoding.Default.GetBytes(password);
-
             var passwordHash = sHA256.ComputeHash(passwordBytes);
-
             return Convert.ToHexString(passwordHash);
+        }
+
+        string SaltGenerator()
+        {
+            var rng = RandomNumberGenerator.Create();
+            byte[] salt = new byte[32];
+            rng.GetNonZeroBytes(salt);
+            return Convert.ToHexString(salt);
         }
     }
 }
