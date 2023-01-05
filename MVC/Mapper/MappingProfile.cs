@@ -10,6 +10,7 @@ namespace MVC.Mapper
         {
             CreateMap<User, UserLoginModel>().ReverseMap();
             CreateMap<User, UserInfoModel>().ReverseMap();
+            CreateMap<User, UserRegisterModel>().ReverseMap();
         }
     }
 }

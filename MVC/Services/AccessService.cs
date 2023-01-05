@@ -6,7 +6,10 @@ using MVC.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-
+using System.Security.Cryptography;
+using System.Text;
+using Data.Entity;
+using System.Data;
 
 namespace MVC.Services
 {
@@ -23,35 +26,89 @@ namespace MVC.Services
 
         public async Task<BaseResponse<UserInfoModel>> LogIn(UserLoginModel userLoginModel)
         {
-            var data = await _userRepository.GetUserByEmailAndPassword(userLoginModel.Email, userLoginModel.Password);
-
-            if (data.Success)
+            var dataSalt = await _userRepository.GetUserSalt(userLoginModel.Email);
+            
+            if (dataSalt.Success)
             {
-                if(data.Data != null)
+                if(dataSalt.Data != null)
                 {
-                    return new BaseResponse<UserInfoModel>
+                    var dataUser = await _userRepository.GetUserByEmailAndPassword(userLoginModel.Email, HashPassword($"{userLoginModel.Password}{dataSalt.Data}"));
+
+                    if (dataUser.Success)
                     {
-                        Data = _mapper.Map<UserInfoModel>(data.Data),
-                        Message = "Zalogowano"
-                    };
+                        if (dataUser.Data != null)
+                        {
+                            return new BaseResponse<UserInfoModel>
+                            {
+                                Data = _mapper.Map<UserInfoModel>(dataUser.Data),
+                                Message = "Zalogowano"
+                            };
+                        }
+                        else
+                        {
+                            return new BaseResponse<UserInfoModel>
+                            {
+                                Success = false,
+                                Message = "Błędne hasło"
+                            };
+                        }
+                    }
                 }
                 else
                 {
                     return new BaseResponse<UserInfoModel>
                     {
                         Success = false,
-                        Message = "Nie ma konta z takim mailem i hasłem"
+                        Message = "Nie ma konta z takim mailem"
                     };
                 }
             }
-            else
+
+            return new BaseResponse<UserInfoModel>
             {
-                return new BaseResponse<UserInfoModel> 
-                { 
-                    Success = false,
-                    Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
-                };
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> Register(UserRegisterModel userRegisterModel)
+        {
+            //Trzeba dodac zabezpieczenie by nie tworzyć z takim samym mailem
+            var user = _mapper.Map<User>(userRegisterModel);
+
+            user.Salt = DateTime.Now.ToString();
+            user.Password = HashPassword($"{userRegisterModel.Password}{user.Salt}");
+
+            var data = await _userRepository.CreateUser(user);
+
+            if(data.Success)
+            {
+                if(data.Data > 0)
+                {
+                    return new BaseResponse<int>
+                    {
+                        Data = data.Data,
+                        Message = "Zarejestrowano"
+                    };
+                }
             }
+
+            return new BaseResponse<int>
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        string HashPassword(string password)
+        {
+            SHA256 sHA256 = SHA256.Create();
+
+            var passwordBytes = Encoding.Default.GetBytes(password);
+
+            var passwordHash = sHA256.ComputeHash(passwordBytes);
+
+            return Convert.ToHexString(passwordHash);
         }
     }
 }

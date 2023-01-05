@@ -67,6 +67,33 @@ namespace MVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            ClaimsPrincipal claimUser = HttpContext.User;
+
+            if (claimUser == null)
+            {
+                ViewData["Message"] = "Jesteś już zalogowany";
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(UserRegisterModel userRegisterModel)
+        {
+            var data = await _accessService.Register(userRegisterModel);
+
+            if (data.Success)
+            {
+
+            }
+
+            return View();
+        }
+
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(
