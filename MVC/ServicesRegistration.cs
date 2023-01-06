@@ -10,6 +10,7 @@ namespace MVC
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IAccessService, AccessService>();
+            services.AddScoped<IPriceListService, PriceListService>();
             return services;
         }
     }

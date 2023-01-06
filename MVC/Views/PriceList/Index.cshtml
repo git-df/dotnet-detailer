@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MVC.Models.CategoryWithProductsPriceListModel>
+
+@{
+    ViewData["Title"] = "Cennik";
+}
+@if (Model != null)
+{
+    @foreach (var category in Model)
+    {
+        if (category.Products != null)
+        {
+            <section class="section-padding">
+                <div class="container mt-5 mb-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section-header text-center pb-5">
+                                <h2>@Html.DisplayFor(c => category.Name)</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-4">
+                                        <p>Nazwa</p>
+                                    </th>
+                                    <th class="col-6">
+                                        <p>Opis</p>
+                                    </th>
+                                    <th class="col-1">
+                                        <p>Czas</p>
+                                    </th>
+                                    <th class="col-1">
+                                        <p>Cena</p>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in category.Products)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(p => product.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(p => product.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(p => product.Duration)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(p => product.Price)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        }
+    }
+
+}

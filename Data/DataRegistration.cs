@@ -16,6 +16,9 @@ namespace Data
             services.AddSingleton<DapperDbContext>();
             services.AddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             return services;
         }
     }

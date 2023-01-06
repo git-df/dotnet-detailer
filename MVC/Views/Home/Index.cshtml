@@ -1,8 +1,191 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Auto Detailing";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+	<!-- Baner -->
+	<div class="carousel slide" data-bs-ride="carousel" id="carouselBaner">
+		<div class="carousel-indicators">
+			<button aria-label="Slide 1" class="active" data-bs-slide-to="0" data-bs-target="#carouselBaner" type="button"></button> <button aria-label="Slide 2" data-bs-slide-to="1" data-bs-target="#carouselBaner" type="button"></button> <button aria-label="Slide 3" data-bs-slide-to="2" data-bs-target="#carouselBaner" type="button"></button>
+		</div>
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img alt="..." class="d-block w-100" src="~/img/baner/baner1.jpg">
+				<div class="carousel-caption">
+					<h5>Nasza pasja</h5>
+					<p>Nasz zespół specjalistów zrobi wszystko, aby sprostać twoim oczekiwaniom w zakresie detailing.</p>
+					<p><a class="btn btn-warning mt-3" href="#about">Poznaj Nas</a></p>
+				</div>
+			</div>
+			<div class="carousel-item">
+			<img alt="..." class="d-block w-100" src="~/img/baner/baner2.jpg">
+				<div class="carousel-caption">
+					<h5>Nasza oferta</h5>
+					<p>Niech twoje auto zawsze wygląda świeżo i nowocześnie dzięki naszym usługą.</p>
+					<p><a class="btn btn-warning mt-3" href="#services">Nasze usługi</a></p>
+				</div>
+			</div>
+			<div class="carousel-item">
+			<img alt="..." class="d-block w-100" src="~/img/baner/baner3.jpg">
+				<div class="carousel-caption">
+					<h5>Twoje zadowolenie</h5>
+					<p>Nasz zespół specjalistów zrobi wszystko, aby sprostać twoim oczekiwaniom.</p>
+					<p><a class="btn btn-warning mt-3" href="#photos">Zobacz zdjęcia</a></p>
+				</div>
+			</div>
+		</div><button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselBaner" type="button"><span aria-hidden="true" class="carousel-control-prev-icon"></span> <span class="visually-hidden">Previous</span></button> <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselBaner" type="button"><span aria-hidden="true" class="carousel-control-next-icon"></span> <span class="visually-hidden">Next</span></button>
+	</div>
+	<!-- O Nas -->
+	<section class="about section-padding" id="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-12 col-12">
+				<div class="about-img"><img alt="" class="img-fluid" src="~/img/about/onas.jpg"></div>
+				</div>
+				<div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
+					<div class="about-text">
+						<h2>Zaufaj nam, aby wydobyć to, co najlepsze...</h2>
+						<p>Nasz zespół specjalistów posiada wiedzę i doświadczenie potrzebne do przywrócenia wyglądu twojego samochodu do stanu z salonu. Zawsze stosujemy tylko najlepsze produkty i techniki, aby zapewnić najlepsze rezultaty dla naszych klientów. Nasza dbałość o szczegóły i staranność sprawia, że jesteśmy najlepszym wyborem w zakresie autodetailingu.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Usługi -->
+	<section class="cardpanel section-padding" id="services">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="section-header text-center pb-5">
+						<h2>Nasze usługi</h2>
+						<p>Niech twoje auto zawsze wygląda świeżo i nowocześnie.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-md-12 col-lg-4">
+					<div class="card text-light text-center bg-dark pb-2">
+						<div class="card-body text-light">
+						<div class="img-area mb-4"><img alt="" class="img-fluid" src="~/img/services/s1.jpg"></div>
+							<h3 class="card-title">Czyszczenie</h3>
+							<p class="lead">Profesjonalne mycie karoseri, felg, silnika.<br>Odkurzanie wnętrza, pranie tapicerki.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4">
+					<div class="card text-light text-center bg-dark pb-2">
+						<div class="card-body text-light">
+						<div class="img-area mb-4"><img alt="" class="img-fluid" src="~/img/services/s2.jpg"></div>
+							<h3 class="card-title">Renowacja</h3>
+							<p class="lead">Wieloetapowa korekta lakieru, Polerowanie lamo regeneracja skór.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4">
+					<div class="card text-light text-center bg-dark pb-2">
+						<div class="card-body text-light">
+						<div class="img-area mb-4"><img alt="" class="img-fluid" src="~/img/services/s3.jpg"></div>
+							<h3 class="card-title">Zabezpieczenie</h3>
+							<p class="lead">Zabezpieczanie lakieru woskiem, powłoką ceramiczną, folią PPF.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Galeria -->
+	<section class="cardpanel section-padding" id="photos">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="section-header text-center pb-5">
+						<h2>Galeria</h2>
+						<p>I to wszystko dla takich chwil...</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 mb-4">
+					<div class="card text-light text-center bg-white">
+						<div class="card-body text-dark">
+						<div class="img-area"><img alt="" class="img-fluid" src="~/img/baner/baner3.jpg"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Kontakt -->
+	<section class="contact section-padding" id="contact">
+		<div class="container mt-5 mb-5">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="section-header text-center pb-5">
+						<h2>Dane kontaktowe</h2>
+						<p>Tu nas znajdziesz ;)</p>
+					</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<p class="h4">ul. Kwiatowa 65/7, 35-000 Rzeszów</p><br>
+				<p class="h4">od poniedziałku do piątku w godzinach 8 - 16</p><br>
+				<p class="h4">tel: 123 432 456</p><br>
+				<p class="h4">email: contact@cc.pl</p>
+			</div>
+		</div>
+	</section>

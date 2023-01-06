@@ -17,49 +17,40 @@ namespace MVC.Services
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public AccessService(IMapper mapper, IUserRepository userRepository)
+        public AccessService(IMapper mapper, IUserRepository userRepository, IEmployeeRepository employeeRepository)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _employeeRepository = employeeRepository;
         }
 
-        public async Task<BaseResponse<UserInfoModel>> LogIn(UserLoginModel userLoginModel)
+        public async Task<BaseResponse<UserInfoModel>> GetUserInfo(int userid)
         {
-            var dataSalt = await _userRepository.GetUserByEmail(userLoginModel.Email);
-            
-            if (dataSalt.Success)
-            {
-                if(dataSalt.Data != null)
-                {
-                    var dataUser = await _userRepository.GetUserByEmailAndPassword(userLoginModel.Email, HashPassword($"{userLoginModel.Password}{dataSalt.Data.Salt}"));
+            var user = await _userRepository.GetUserById(userid);
+            var employee = await _employeeRepository.GetEmployeeByUserId(userid);
 
-                    if (dataUser.Success)
+            if(user.Success && employee.Success)
+            {
+                if(user.Data != null)
+                {
+                    var data = new BaseResponse<UserInfoModel>
                     {
-                        if (dataUser.Data != null)
-                        {
-                            return new BaseResponse<UserInfoModel>
-                            {
-                                Data = _mapper.Map<UserInfoModel>(dataUser.Data),
-                                Message = "Zalogowano"
-                            };
-                        }
-                        else
-                        {
-                            return new BaseResponse<UserInfoModel>
-                            {
-                                Success = false,
-                                Message = "Błędne hasło"
-                            };
-                        }
-                    }
+                        Data = _mapper.Map<UserInfoModel>(user.Data)
+                    };
+
+                    if (employee.Data != null) 
+                        data.Data.Employee = _mapper.Map<EmployeeInUserInfoModel>(employee.Data);
+
+                    return data;
                 }
                 else
                 {
                     return new BaseResponse<UserInfoModel>
                     {
                         Success = false,
-                        Message = "Nie ma konta z takim mailem"
+                        Message = "Nie ma takiego użytkownika"
                     };
                 }
             }
@@ -71,7 +62,49 @@ namespace MVC.Services
             };
         }
 
-        public async Task<BaseResponse<int>> Register(UserRegisterModel userRegisterModel)
+        public async Task<BaseResponse<UserInfoModel>> SignIn(UserLoginModel userLoginModel)
+        {
+            var data = await _userRepository.GetUserByEmail(userLoginModel.Email);
+            
+            if (data.Success)
+            {
+                if (data.Data != null)
+                {
+
+                    if (data.Data.Password == HashPassword($"{userLoginModel.Password}{data.Data.Salt}"))
+                    {
+                        var userInfo = await GetUserInfo(data.Data.Id);
+
+                        if (userInfo.Success)
+                        {
+                            return new BaseResponse<UserInfoModel>
+                            {
+                                Data = userInfo.Data,
+                                Message = "Zalogowano"
+                            };
+                        }
+                    }
+                    else
+                    {
+                        return new BaseResponse<UserInfoModel>
+                        {
+                            Success = false,
+                            Message = "Błędne hasło"
+                        };
+                    }
+
+                }
+
+            }
+
+            return new BaseResponse<UserInfoModel>
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> SignUp(UserRegisterModel userRegisterModel)
         {
             var userExist = await _userRepository.GetUserByEmail(userRegisterModel.Email);
 

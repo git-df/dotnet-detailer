@@ -26,10 +26,10 @@ namespace Data.Repositories
             return await GetAsync(sql, new { email });
         }
 
-        public async Task<BaseResponse<User>> GetUserByEmailAndPassword(string email, string password)
+        public async Task<BaseResponse<User>> GetUserById(int userid)
         {
-            var sql = "select * from public.user where email=@email and password=@password";
-            return await GetAsync(sql, new { email, password });
+            var sql = "select * from public.user where id=@userid";
+            return await GetAsync(sql, new { userid });
         }
     }
 }

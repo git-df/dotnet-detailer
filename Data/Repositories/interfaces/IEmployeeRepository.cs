@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories.interfaces
 {
-    public interface IUserRepository
+    public interface IEmployeeRepository
     {
-        Task<BaseResponse<User>> GetUserByEmail(string email);
-        Task<BaseResponse<User>> GetUserById(int userid);
-        Task<BaseResponse<int>> CreateUser(User user);
+        Task<BaseResponse<Employee>> GetEmployeeByUserId(int userid);
     }
 }

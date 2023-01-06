@@ -1,0 +1,59 @@
+﻿@model MVC.Models.UserLoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C&C - Logowanie</title>
+    <!-- CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/sign.css" rel="stylesheet">
+</head>
+<body>
+    
+    <div>
+        <div class="sign bg-dark text-light p-5">
+            <div class="row text-center border-bottom">
+                <div class="col-6 sign-link p-2"><a class="h5" asp-action="SignIn"><b>Logowanie</b></a></div>
+                <div class="col-6 sign-link p-2"><a class="h5" asp-action="SignUp">Rejestracja</a></div>
+            </div>
+            @using (Html.BeginForm("SignIn", "Access"))
+            {
+                <div class="form-group p-2 pt-3">
+                    @Html.LabelFor(u => u.Email) <br>
+                    @Html.TextBoxFor(u => u.Email)<br>
+                    <span class="text-danger">@Html.ValidationMessageFor(u => u.Email)</span>
+                </div>
+                <div class="form-group p-2">
+                    @Html.LabelFor(u => u.Password)<br>
+                    @Html.PasswordFor(u => u.Password)<br>
+                    <span class="text-danger">@Html.ValidationMessageFor(u => u.Password)</span>
+                </div>
+                <div class="form-group p-2">
+                    <label class="form-check-label">
+                        @Html.CheckBoxFor(u => u.KeepLoggedIn) @Html.LabelFor(u => u.KeepLoggedIn)
+                    </label>
+                </div>
+                <div class="form-group pt-3 text-center">
+                    <input type="submit" value="Zaloguj się" class="btn btn-light" />
+                </div>
+             }
+        </div>
+        <br>
+            @if (ViewData["Message"] != null)
+            {
+            <div class="text-center">
+                <p class="text-danger col-12">@ViewData["Message"]</p>
+            </div>
+            }
+    </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

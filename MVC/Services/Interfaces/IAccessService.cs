@@ -5,7 +5,8 @@ namespace MVC.Services.Interfaces
 {
     public interface IAccessService
     {
-        Task<BaseResponse<UserInfoModel>> LogIn(UserLoginModel userLoginModel);
-        Task<BaseResponse<int>> Register(UserRegisterModel userRegisterModel);
+        Task<BaseResponse<UserInfoModel>> SignIn(UserLoginModel userLoginModel);
+        Task<BaseResponse<int>> SignUp(UserRegisterModel userRegisterModel);
+        Task<BaseResponse<UserInfoModel>> GetUserInfo(int userid);
     }
 }

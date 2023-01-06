@@ -11,9 +11,21 @@ builder.Services.AddServices(builder.Configuration);
 builder.Services.AddAuthentication(
     CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(op => {
-        op.LoginPath = "/Access/Login";
+        op.Cookie.Name = "CleanAndCareAuth";
+        op.LoginPath = "/Access/SignIn";
         op.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        op.AccessDeniedPath = "/Home/Index";
     });
+
+builder.Services.AddAuthorization(op => {
+    //[Authorize(Policy = "MustBeEmployee")]
+    op.AddPolicy("MustBeEmployee",
+        policy => policy.RequireClaim("EmployeeId"));
+
+    //[Authorize(Policy = "MustBeAdmin")]
+    op.AddPolicy("MustBeAdmin",
+        policy => policy.RequireClaim("IsAdmin", "True"));
+});
 
 var app = builder.Build();
 
