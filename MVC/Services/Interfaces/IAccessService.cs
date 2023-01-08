@@ -8,5 +8,6 @@ namespace MVC.Services.Interfaces
         Task<BaseResponse<UserInfoModel>> SignIn(UserLoginModel userLoginModel);
         Task<BaseResponse<int>> SignUp(UserRegisterModel userRegisterModel);
         Task<BaseResponse<UserInfoModel>> GetUserInfo(int userid);
+        Task<BaseResponse<int>> PasswordChange(UserPasswordChangeModel userPasswordChange);
     }
 }

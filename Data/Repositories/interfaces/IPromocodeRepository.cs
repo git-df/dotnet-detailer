@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories.interfaces
 {
-	public interface IProductRepository
-	{
-		Task<BaseResponse<List<Product>>> GetAllProducts();
-        Task<BaseResponse<List<Product>>> GetUserProducts(int userid);
+    public  interface IPromocodeRepository
+    {
+        Task<BaseResponse<List<Promocode>>> GetAllPromocodes();
     }
 }

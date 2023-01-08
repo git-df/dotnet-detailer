@@ -46,4 +46,31 @@ namespace MVC.Models
         [MinLength(8, ErrorMessage = "Minimum 8 znaków")]
         public string Password { get; set; } = string.Empty;
     }
+
+    public class UserEditModel
+    {
+        public int Id { get; set; }
+        [Display(Name = "Imie")]
+        [Required(ErrorMessage = "Musisz podać imie")]
+        public string FirstName { get; set; } = string.Empty;
+        [Display(Name = "Nazwisko")]
+        [Required(ErrorMessage = "Musisz podać nazwisko")]
+        public string LastName { get; set; } = string.Empty;
+    }
+
+    public class UserPasswordChangeModel
+    {
+        public int Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        [Display(Name = "Stare hasło")]
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Musisz podać stare hasło")]
+        public string OldPassword { get; set; } = string.Empty;
+        [Display(Name = "Nowe hasło")]
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Musisz podać nowe hasło")]
+        [MinLength(8, ErrorMessage = "Minimum 8 znaków")]
+        public string NewPassword { get; set; } = string.Empty;
+    }
+
 }

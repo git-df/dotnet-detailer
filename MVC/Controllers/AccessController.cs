@@ -11,10 +11,10 @@ namespace MVC.Controllers
 {
     public class AccessController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<AccessController> _logger;
         private readonly IAccessService _accessService;
 
-        public AccessController(ILogger<HomeController> logger, IAccessService accessService)
+        public AccessController(ILogger<AccessController> logger, IAccessService accessService)
         {
             _logger = logger;
             _accessService = accessService;
@@ -25,10 +25,8 @@ namespace MVC.Controllers
         {
             ClaimsPrincipal claimsPrincipal = HttpContext.User;
 
-            var a = claimsPrincipal.FindFirstValue("FirstName");
-
             if (claimsPrincipal.Identity.IsAuthenticated) 
-                 return RedirectToAction("Index", "Home");
+                 return RedirectToAction("Index", "User");
             return View();
         }
 
@@ -75,7 +73,7 @@ namespace MVC.Controllers
                         authenticationProperties);
 
                     ViewData["Message"] = data.Message;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "User");
                 }   
             }
 
@@ -88,7 +86,7 @@ namespace MVC.Controllers
         {
             ClaimsPrincipal claimsPrincipal = HttpContext.User;
             if (claimsPrincipal.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "User");
             return View();
         }
 

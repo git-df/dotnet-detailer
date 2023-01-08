@@ -11,6 +11,8 @@ namespace MVC
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IAccessService, AccessService>();
             services.AddScoped<IPriceListService, PriceListService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPromocodeService, PromocodeService>();
             return services;
         }
     }

@@ -1,0 +1,54 @@
+﻿@model MVC.Models.UserEditModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C&C - Educja danych</title>
+    <!-- CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/sign.css" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <div class="sign bg-dark text-light p-5">
+            <div class="row text-center border-bottom">
+                <div class="col-12 sign-link p-2"><a class="h5" asp-action="Edit"><b>Zmiana danych</b></a></div>
+            </div>
+            @using (Html.BeginForm("Edit", "User"))
+            {
+                <div class="form-group p-2 pt-3">
+                    @Html.LabelFor(u => u.FirstName) <br>
+                    @Html.TextBoxFor(u => u.FirstName)<br>
+                    <span class="text-danger">@Html.ValidationMessageFor(u => u.FirstName)</span>
+                </div>
+                <div class="form-group p-2">
+                    @Html.LabelFor(u => u.LastName)<br>
+                    @Html.TextBoxFor(u => u.LastName)<br>
+                    <span class="text-danger">@Html.ValidationMessageFor(u => u.LastName)</span>
+                </div>
+                <div class="form-group pt-3 text-center">
+                    <input type="submit" value="Zapisz" class="btn btn-light" />
+                </div>
+                @Html.HiddenFor(u => u.Id)
+            }
+        </div>
+        <br>
+        @if (ViewData["Message"] != null)
+        {
+            <div class="text-center">
+                <p class="text-danger col-12">@ViewData["Message"]</p>
+            </div>
+        }
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

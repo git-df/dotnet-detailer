@@ -19,6 +19,7 @@ namespace Data
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IPromocodeRepository, PromocodeRepository>();
             return services;
         }
     }

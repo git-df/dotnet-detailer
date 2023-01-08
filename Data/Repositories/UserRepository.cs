@@ -31,5 +31,18 @@ namespace Data.Repositories
             var sql = "select * from public.user where id=@userid";
             return await GetAsync(sql, new { userid });
         }
+
+        public async Task<BaseResponse<int>> PasswordChange(User user)
+        {
+            var sql = "update public.user set password=@Password, salt=@Salt where id=@Id ";
+            return await EditData(sql, user);
+        }
+
+        public async Task<BaseResponse<int>> UpdateNameUser(User user)
+        {
+
+            var sql = "update public.user set firstname=@FirstName, lastname=@LastName where id=@Id ";
+            return await EditData(sql, user);
+        }
     }
 }

@@ -8,4 +8,10 @@
         public decimal Price { get; set; }
         public int Duration { get; set; }
     }
+
+    public class ProductInPromocodeListModel
+    {
+        public int ProductId { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }

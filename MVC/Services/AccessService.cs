@@ -62,6 +62,44 @@ namespace MVC.Services
             };
         }
 
+        public async Task<BaseResponse<int>> PasswordChange(UserPasswordChangeModel userPasswordChange)
+        {
+            var user = await _userRepository.GetUserById(userPasswordChange.Id);
+
+            if(user.Success && user.Data != null)
+            {
+                if (user.Data.Password == HashPassword($"{userPasswordChange.OldPassword}{user.Data.Salt}"))
+                {
+                    var userNewPassword = _mapper.Map<User>(user.Data);
+                    userNewPassword.Salt = SaltGenerator();
+                    userNewPassword.Password = HashPassword($"{userPasswordChange.NewPassword}{userNewPassword.Salt}");
+                    var data = await _userRepository.PasswordChange(userNewPassword);
+
+                    if (data.Success)
+                    {
+                        return new BaseResponse<int>
+                        {
+                            Data = data.Data
+                        };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<int>
+                    {
+                        Success = false,
+                        Message = "Błędne hasło"
+                    };
+                }
+            }
+
+            return new BaseResponse<int>
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
         public async Task<BaseResponse<UserInfoModel>> SignIn(UserLoginModel userLoginModel)
         {
             var data = await _userRepository.GetUserByEmail(userLoginModel.Email);
