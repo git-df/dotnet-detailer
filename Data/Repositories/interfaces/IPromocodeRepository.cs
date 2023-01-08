@@ -11,5 +11,6 @@ namespace Data.Repositories.interfaces
     public  interface IPromocodeRepository
     {
         Task<BaseResponse<List<Promocode>>> GetAllPromocodes();
+        Task<BaseResponse<List<Promocode>>> GetPromocodesByCode(string code);
     }
 }

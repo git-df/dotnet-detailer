@@ -23,7 +23,7 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var user = await GetUser();
+            var user = await _accessService.GetUserInfo(Int32.Parse(User.FindFirstValue("UserId")));
 
             if (user.Success)
             {
@@ -38,23 +38,14 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> Edit()
         {
-            var user = await GetUser();
-
-            if (user.Success)
+            var userEdit = new UserEditModel()
             {
-                var userEdit = new UserEditModel()
-                {
-                    Id = user.Data.Id,
-                    FirstName = user.Data.FirstName,
-                    LastName = user.Data.LastName
-                };
+                Id = Int32.Parse(User.FindFirstValue("UserId")),
+                FirstName = User.FindFirstValue("FirstName"),
+                LastName = User.FindFirstValue("LastName")
+            };
 
-                return View(userEdit);
-            }
-            else
-            {
-                return RedirectToAction("SignIn", "Access");
-            }
+            return View(userEdit);
         }
 
         [Authorize]
@@ -77,22 +68,13 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> PasswordChange()
         {
-            var user = await GetUser();
-
-            if (user.Success)
+            var userPasswordChange = new UserPasswordChangeModel()
             {
-                var userPasswordChange = new UserPasswordChangeModel()
-                {
-                    Id = user.Data.Id,
-                    Email = user.Data.Email
-                };
+                Id = Int32.Parse(User.FindFirstValue("UserId")),
+                Email = User.FindFirstValue("Email")
+            };
 
-                return View(userPasswordChange);
-            }
-            else
-            {
-                return RedirectToAction("SignIn", "Access");
-            }
+            return View(userPasswordChange);
         }
 
         [Authorize]
@@ -110,16 +92,6 @@ namespace MVC.Controllers
 
             ViewData["Message"] = data.Message;
             return View();
-        }
-
-
-
-        private async Task<BaseResponse<UserInfoModel>> GetUser()
-        {
-            ClaimsPrincipal claimsPrincipal = HttpContext.User;
-            var userid = Int32.Parse(claimsPrincipal.FindFirstValue("UserId"));
-            var user = await _accessService.GetUserInfo(userid);
-            return user;
         }
     }
 }

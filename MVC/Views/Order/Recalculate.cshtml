@@ -1,0 +1,73 @@
+﻿@model MVC.Models.OrderSummaryModel
+
+@{
+    ViewData["Title"] = "Recalculate";
+}
+
+
+<section class="section-padding">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    <h2>Podsumowanie zamówienia</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-4">
+                            <p>Nazwa</p>
+                        </th>
+                        <th class="col-6">
+                            <p>Opis</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Czas</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Cena</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.OrderProducts != null) 
+                        for (int i = 0; i < Model.OrderProducts.Count(); i++)
+                        {
+                            @Html.HiddenFor(p => Model.OrderProducts[i].ProductId)
+                            <tr>
+                                <td>
+                                    @Html.TextBoxFor(p => Model.OrderProducts[i].Name, new { @class = "bg-light border-0", @readonly = "true", @size = Model.OrderProducts[i].Name.Length - 3 } )
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(p => Model.OrderProducts[i].Description, new { @class = "bg-light border-0", @readonly = "true", @size = Model.OrderProducts[i].Description.Length - 3 } )
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(p => Model.OrderProducts[i].Duration, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } )
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(p => Model.OrderProducts[i].Price, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } )
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<section class="section-padding">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    @Html.HiddenFor(p => p.UserId)
+                    <h5>Cena @Html.TextBoxFor(o => o.Price, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } )</h5>
+                    <h5>Czas @Html.TextBoxFor(o => o.Duration, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } )</h5>
+                    <input type="submit" value="Przelicz zamówienie" class="btn btn-light" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

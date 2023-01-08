@@ -23,9 +23,7 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
-            ClaimsPrincipal claimsPrincipal = HttpContext.User;
-
-            if (claimsPrincipal.Identity.IsAuthenticated) 
+            if (User.Identity.IsAuthenticated) 
                  return RedirectToAction("Index", "User");
             return View();
         }
@@ -49,7 +47,8 @@ namespace MVC.Controllers
                         new Claim(ClaimTypes.NameIdentifier, logUser.Email),
                         new Claim("UserId", logUser.Id.ToString()),
                         new Claim("FirstName", logUser.FirstName),
-                        new Claim("LastName", logUser.LastName)
+                        new Claim("LastName", logUser.LastName),
+                        new Claim("Email", logUser.Email)
                     };
 
                     if (logUser.Employee != null)
@@ -84,8 +83,7 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult SignUp()
         {
-            ClaimsPrincipal claimsPrincipal = HttpContext.User;
-            if (claimsPrincipal.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "User");
             return View();
         }

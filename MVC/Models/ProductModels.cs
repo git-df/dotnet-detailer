@@ -2,16 +2,26 @@
 {
     public class ProductInPriceListModel
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public int Duration { get; set; }
     }
 
+    public class ProductInOrderModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public int Duration { get; set; }
+        public bool InOrder { get; set; } = false;
+    }
+
     public class ProductInPromocodeListModel
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
     }
 }

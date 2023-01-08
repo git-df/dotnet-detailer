@@ -19,5 +19,11 @@ namespace Data.Repositories
             var sql = "select * from promocode";
             return await GetAll(sql, new { });
         }
+
+        public async Task<BaseResponse<List<Promocode>>> GetPromocodesByCode(string code)
+        {
+            var sql = "select * from promocode where code=@code";
+            return await GetAll(sql, new { code });
+        }
     }
 }

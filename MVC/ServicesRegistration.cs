@@ -13,6 +13,7 @@ namespace MVC
             services.AddScoped<IPriceListService, PriceListService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPromocodeService, PromocodeService>();
+            services.AddScoped<IOrderService, OrderService>();
             return services;
         }
     }
