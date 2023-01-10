@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Data.Entity;
 using Data.Repositories.interfaces;
 using Data.Responses;
 using MVC.Models;
@@ -17,6 +18,93 @@ namespace MVC.Services
             _mapper = mapper;
             _employeeRepository = employeeRepository;
             _userRepository = userRepository;
+        }
+
+        public async Task<BaseResponse<int>> AddAdmin(AddEmployeeModel employeeModel)
+        {
+            var user = await _userRepository.GetUserByEmail(employeeModel.Email);
+
+            if (user.Success && user.Data != null)
+            {
+                var employee = await _employeeRepository.GetEmployeeByUserId(user.Data.Id);
+
+                if (employee.Success && employee.Data != null)
+                {
+                    var data = await _employeeRepository.SetAdminTrue(employee.Data.Id);
+
+                    if (data.Success)
+                    {
+                        return new BaseResponse<int>() { Data = data.Data };
+                    }
+                }
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> AddEmployee(AddEmployeeModel employeeModel)
+        {
+            var user = await _userRepository.GetUserByEmail(employeeModel.Email);
+
+            if (user.Success && user.Data != null)
+            {
+                var data = await _employeeRepository.AddEmployee(
+                    new Employee() { UserId = user.Data.Id, IsAdmin = false });
+
+                return new BaseResponse<int>() { Data = data.Data };
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> DeleteAdmin(int userid)
+        {
+            var employee = await _employeeRepository.GetEmployeeByUserId(userid);
+
+            if (employee.Success && employee.Data != null)
+            {
+                var data = await _employeeRepository.SetAdminFalse(employee.Data.Id);
+
+                if (data.Success)
+                {
+                    return new BaseResponse<int>() { Data = data.Data };
+                }
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> DeleteEmployee(int userid)
+        {
+            var employee = await _employeeRepository.GetEmployeeByUserId(userid);
+
+            if (employee.Success && employee.Data != null)
+            {
+                var data = await _employeeRepository.DeleteEmployee(employee.Data.Id);
+
+                if (data.Success)
+                {
+                    return new BaseResponse<int>() { Data = data.Data };
+                }
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
         }
 
         public async Task<BaseResponse<List<UserEmployeeListModel>>> GetAdminslist()

@@ -12,5 +12,9 @@ namespace Data.Repositories.interfaces
     {
         Task<BaseResponse<Employee>> GetEmployeeByUserId(int userid);
         Task<BaseResponse<List<Employee>>> GetAllEmployes();
+        Task<BaseResponse<int>> SetAdminFalse(int employeeid);
+        Task<BaseResponse<int>> SetAdminTrue(int employeeid);
+        Task<BaseResponse<int>> DeleteEmployee(int employeeid);
+        Task<BaseResponse<int>> AddEmployee(Employee employee);
     }
 }

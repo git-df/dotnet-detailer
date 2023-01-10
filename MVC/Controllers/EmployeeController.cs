@@ -85,29 +85,19 @@ namespace MVC.Controllers
         }
 
         [Authorize(Policy = "MustBeAdmin")]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var data = await _employeeService.GetEmployeelist();
+            await _employeeService.DeleteEmployee(id);
 
-            if (data.Success && data.Data != null)
-            {
-                return View(data.Data);
-            }
-
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Index", "Employee");
         }
 
         [Authorize(Policy = "MustBeAdmin")]
-        public async Task<IActionResult> DeleteAdmin()
+        public async Task<IActionResult> DeleteAdmin([FromRoute] int id)
         {
-            var data = await _employeeService.GetEmployeelist();
+            await _employeeService.DeleteAdmin(id);
 
-            if (data.Success && data.Data != null)
-            {
-                return View(data.Data);
-            }
-
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Admins", "Employee");
         }
     }
 }
