@@ -11,5 +11,6 @@ namespace Data.Repositories.interfaces
     public interface IEmployeeRepository
     {
         Task<BaseResponse<Employee>> GetEmployeeByUserId(int userid);
+        Task<BaseResponse<List<Employee>>> GetAllEmployes();
     }
 }

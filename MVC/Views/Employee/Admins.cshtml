@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MVC.Models.UserEmployeeListModel>
+
+@{
+    ViewData["Title"] = "Administratorzy";
+}
+<section class="section-padding">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    <br><h2>Lista pracowników</h2>
+                    <a class="btn btn-dark" asp-controller="Employee" asp-action="AddAdmin">Dodaj administratora</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-4">
+                            <p>Email</p>
+                        </th>
+                        <th class="col-6">
+                            <p>Imie</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Nazwisko</p>
+                        </th>
+                        <th class="col-1">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(p => user.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(p => user.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(p => user.LastName)
+                            </td>
+                            <td>
+                                <a class="btn btn-dark" asp-controller="Employee" asp-action="DeleteAdmin" asp-route-id="@user.Id">Usuń</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -55,24 +55,13 @@
                     <tbody>
                         <tr>
                             <td class="p-3">
-                                <a class="btn btn-dark col-12 p-4">Usługi do potwierdzenia</a>
+                                <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersToConfirm">Zlecenia do potwierdzenia</a>
                             </td>
                             <td class="p-3">
-                                <a class="btn btn-dark col-12 p-4">Historia zleceń</a>
+                                <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersToDo">Zlecenia do wykonania</a>
                             </td>
                             <td class="p-3">
-                                <a class="btn btn-dark col-12 p-4">Edytuj dane</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-3">
-                                <a class="btn btn-dark col-12 p-4">Usługi do wykonania</a>
-                            </td>
-                            <td class="p-3">
-                                <a class="btn btn-dark col-12 p-4">sdf</a>
-                            </td>
-                            <td class="p-3">
-                                <a class="btn btn-dark col-12 p-4">Zmień hasło</a>
+                                <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersNoPaid">Zlecenia nie opłacone</a>
                             </td>
                         </tr>
                     </tbody>
@@ -91,24 +80,24 @@
                         <tbody>
                             <tr>
                                 <td class="p-3">
-                                    <a class="btn btn-dark col-12 p-4">Pracownicy</a>
+                                    <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersToConfirm">Kategorie</a>
                                 </td>
                                 <td class="p-3">
-                                    <a class="btn btn-dark col-12 p-4">Historia zleceń</a>
+                                    <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersToDo">Usługi</a>
                                 </td>
                                 <td class="p-3">
-                                    <a class="btn btn-dark col-12 p-4">Edytuj dane</a>
+                                    <a class="btn btn-dark col-12 p-4" asp-controller="Employee" asp-action="Index">Pracownicy</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="p-3">
-                                    <a class="btn btn-dark col-12 p-4">Zobacz swoją ofertę</a>
+                                    <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersToConfirm">Kody Promocyjne</a>
                                 </td>
                                 <td class="p-3">
-                                    <a class="btn btn-dark col-12 p-4">sdf</a>
+                                    <a class="btn btn-dark col-12 p-4" asp-controller="Order" asp-action="OrdersToDo">Promocje użytkowników</a>
                                 </td>
                                 <td class="p-3">
-                                    <a class="btn btn-dark col-12 p-4">Zmień hasło</a>
+                                    <a class="btn btn-dark col-12 p-4" asp-controller="Employee" asp-action="Admins">Administratorzy</a>
                                 </td>
                             </tr>
                         </tbody>

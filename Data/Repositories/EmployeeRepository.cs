@@ -14,6 +14,12 @@ namespace Data.Repositories
         public EmployeeRepository(DapperDbContext dapper) 
             : base(dapper) { }
 
+        public async Task<BaseResponse<List<Employee>>> GetAllEmployes()
+        {
+            var sql = "select * from public.employee";
+            return await GetAll(sql, new { });
+        }
+
         public async Task<BaseResponse<Employee>> GetEmployeeByUserId(int userid)
         {
             var sql = "select * from public.employee where userid=@userid";

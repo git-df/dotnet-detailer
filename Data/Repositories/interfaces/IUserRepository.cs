@@ -12,6 +12,7 @@ namespace Data.Repositories.interfaces
     {
         Task<BaseResponse<User>> GetUserByEmail(string email);
         Task<BaseResponse<User>> GetUserById(int userid);
+        Task<BaseResponse<List<User>>> GetAllUsers();
         Task<BaseResponse<int>> CreateUser(User user);
         Task<BaseResponse<int>> UpdateNameUser(User user);
         Task<BaseResponse<int>> PasswordChange(User user);

@@ -1,4 +1,8 @@
 ﻿using Data.Entity;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+
 
 namespace MVC.Models
 {
@@ -20,7 +24,9 @@ namespace MVC.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Musisz uzupełnić")]
         public DateTime? DateStart { get; set; }
+        [Required(ErrorMessage = "Musisz uzupełnić")]
         public DateTime? DateEnd { get; set; }
         public decimal Price { get; set; }
         public bool IsConfirmed { get; set; }

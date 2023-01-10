@@ -182,5 +182,42 @@ namespace MVC.Controllers
 
             return RedirectToAction("Index", "User");
         }
+
+        [Authorize(Policy = "MustBeEmployee")]
+        public async Task<IActionResult> Confirm([FromRoute] int id)
+        {
+            var data = await _orderService.GetOrder(id);
+
+            if (data.Success && data.Data != null)
+            {
+                return View(data.Data);
+            }
+
+            return RedirectToAction("OrdersToConfirm", "Order");
+        }
+
+        [Authorize(Policy = "MustBeEmployee")]
+        [HttpPost]
+        public async Task<IActionResult> Confirm(OrderInListModel order)
+        {
+            if (!ModelState.IsValid) return RedirectToAction("Confirm", null, order.Id, null);
+
+            var data = await _orderService.Confirm(order);
+
+            if (data.Success)
+            {
+                return RedirectToAction("OrdersToConfirm");
+            }
+
+            return RedirectToAction("Confirm", null, order.Id, null);
+        }
+
+        [Authorize(Policy = "MustBeEmployee")]
+        public async Task<IActionResult> Do([FromRoute] int id)
+        {
+            var data = await _orderService.Do(id);
+
+            return RedirectToAction("OrdersToDo", "Order");
+        }
     }
 }

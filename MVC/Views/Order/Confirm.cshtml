@@ -1,0 +1,99 @@
+﻿@model MVC.Models.OrderInListModel
+
+@{
+    ViewData["Title"] = "Potwierdzanie";
+}
+
+@using (Html.BeginForm("Confirm", "Order"))
+{
+    <section class="section-padding">
+        <div class="container mt-5 mb-5 border rounded bg-light p-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-header text-center pb-5">
+                        <br><h2>Potwierdzanie zlecenia</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="accordion" id="orders">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="@("heading"+Model.Id)">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="@("#collapse"+Model.Id)" aria-expanded="false" aria-controls="@("collapse"+Model.Id)">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr class="row text-center">
+                                                    <td class="col-1">
+                                                        Zlecenie<br>@Html.TextBoxFor(o => Model.Id, new { @class = "bg-light border-0 text-center", @readonly = "true", @size = 10, @style = "background: none !important;" })
+                                                    </td>
+                                                    <td class="col-2">
+                                                        Cena (zł)<br>@Html.DisplayFor(o => Model.Price)
+                                                    </td>
+                                                    <td class="col-3">
+                                                        Data rozpoczęcia<br>@Html.TextBoxFor(o => Model.DateStart, new { @type = "datetime-local" })
+                                                        <span class="text-danger">@Html.ValidationMessageFor(o => Model.DateStart)</span>
+                                                    </td>
+                                                    <td class="col-3">
+                                                        Data rozpoczęcia<br>@Html.TextBoxFor(a => Model.DateEnd, new { @type = "datetime-local" })
+                                                        <span class="text-danger">@Html.ValidationMessageFor(o => Model.DateEnd)</span>
+                                                    </td>
+                                                    <td class="col-1">
+                                                        Potwierdzono<br>@Html.DisplayFor(o => Model.IsConfirmed)
+                                                    </td>
+                                                    <td class="col-1">
+                                                        Wykonano<br>@Html.DisplayFor(o => Model.IsDone)
+                                                    </td>
+                                                    <td class="col-1">
+                                                        Opłacono<br>@Html.DisplayFor(o => Model.IsPaid)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </button>
+                                </h2>
+                                <div id="@("collapse"+Model.Id)" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#orders">
+                                    <div class="accordion-body">
+                                        @if (Model.orderProducts != null && Model.orderProducts.Count() > 0)
+                                        {
+                                            <table class="table text-center">
+                                                @for (var i=0; i<Model.orderProducts.Count(); i++)
+                                                {
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                Numer usługi: @Html.DisplayFor(p => Model.orderProducts[i].Id)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(p => Model.orderProducts[i].Name)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(p => Model.orderProducts[i].Duration) min
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(p => Model.orderProducts[i].Price) zł
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                }
+                                            </table>
+
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+            </div>
+        </div>
+        <div class="container mt-5 mb-5 border rounded bg-light p-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-header text-center pb-5">
+                        <br><h2>Potwierdź zlecenie</h2>
+                        <input type="submit" value="Potwierdż" class="btn btn-dark" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

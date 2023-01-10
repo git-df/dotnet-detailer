@@ -14,6 +14,12 @@ namespace Data.Repositories
         public OrderRepository(DapperDbContext dapper) 
             : base(dapper) { }
 
+        public async Task<BaseResponse<int>> ConfirmOrder(Order order)
+        {
+            var sql = "update public.order set isconfirmed = true, datestart = @DateStart, dateend = @DateEnd where id = @Id";
+            return await EditData(sql, order);
+        }
+
         public async Task<BaseResponse<int>> CreateOrder(Order order)
         {
             var sql = "insert  into public.order (userid, datestart, dateend, price, isconfirmed, ispaid, isdone) values(@UserId, @DateStart, @DateEnd, @Price, @IsConfirmed, @IsPaid, @IsDone) returning id";
@@ -26,10 +32,22 @@ namespace Data.Repositories
             return await EditData(sql, new { orderid });
         }
 
+        public async Task<BaseResponse<int>> DoOrder(int orderid)
+        {
+            var sql = "update public.order set isdone = true where id = @orderid";
+            return await EditData(sql, new { orderid });
+        }
+
         public async Task<BaseResponse<List<Order>>> GetAllOrders()
         {
             var sql = "select * from public.order";
             return await GetAll(sql, new { });
+        }
+
+        public async Task<BaseResponse<Order>> GetOrderById(int orderid)
+        {
+            var sql = "select * from public.order where id=@orderid";
+            return await GetAsync(sql, new { orderid });
         }
 
         public async Task<BaseResponse<List<Order>>> GetOrdersByUserId(int userid)

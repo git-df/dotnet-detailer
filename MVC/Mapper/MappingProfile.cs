@@ -13,6 +13,7 @@ namespace MVC.Mapper
             CreateMap<User, UserRegisterModel>().ReverseMap();
             CreateMap<User, UserEditModel>().ReverseMap();
             CreateMap<User, UserPasswordChangeModel>().ReverseMap();
+            CreateMap<User, UserEmployeeListModel>().ReverseMap();
             CreateMap<UserInfoModel, UserEditModel>().ReverseMap();
             CreateMap<Product, ProductInPriceListModel>().ReverseMap();
             CreateMap<Product, ProductInPromocodeListModel>().ReverseMap();

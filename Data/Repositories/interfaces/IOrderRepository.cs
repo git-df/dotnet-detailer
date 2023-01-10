@@ -15,5 +15,8 @@ namespace Data.Repositories.interfaces
         Task<BaseResponse<List<Order>>> GetAllOrders();
         Task<BaseResponse<int>> SetPaid(int orderid);
         Task<BaseResponse<int>> DeleteOrder(int orderid);
+        Task<BaseResponse<Order>> GetOrderById(int orderid);
+        Task<BaseResponse<int>> ConfirmOrder(Order order);
+        Task<BaseResponse<int>> DoOrder(int orderid);
     }
 }

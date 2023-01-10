@@ -14,6 +14,7 @@ namespace MVC
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPromocodeService, PromocodeService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             return services;
         }
     }

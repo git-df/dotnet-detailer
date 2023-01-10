@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="section-header text-center pb-5">
-                    <br /><h2>Podsumowanie zamówienia</h2>
+                    <br /><h2>Podsumowanie zlecenia</h2>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
             <div class="col-md-12">
                 <div class="section-header text-center pb-5">
                     @Html.HiddenFor(p => p.UserId)
-                    <br><h2>Potwierdź zamówienie</h2>
+                    <br><h2>Potwierdź zlecenie</h2>
                     <h5>Łączny koszt @Html.TextBoxFor(o => o.Price, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } ) zł</h5>
                     <h5>Łączny czas @Html.TextBoxFor(o => o.Duration, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } ) min</h5><br>
                     <input type="submit" value="Potwierdż" class="btn btn-dark" />

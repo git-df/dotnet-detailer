@@ -20,6 +20,12 @@ namespace Data.Repositories
             return await EditData(sql, user);
         }
 
+        public async Task<BaseResponse<List<User>>> GetAllUsers()
+        {
+            var sql = "select * from public.user";
+            return await GetAll(sql, new { });
+        }
+
         public async Task<BaseResponse<User>> GetUserByEmail(string email)
         {
             var sql = "select * from public.user where email=@email";

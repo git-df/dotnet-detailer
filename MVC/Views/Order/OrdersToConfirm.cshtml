@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<MVC.Models.OrderInListModel>
 
 @{
-    ViewData["Title"] = "Historia zamówień";
+    ViewData["Title"] = "Do potwierdzenia";
 }
 <section class="section-padding">
     <div class="container mt-5 mb-5 border rounded bg-light p-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="section-header text-center pb-5">
-                    <br><h2>Twoje zamówienia</h2>
+                    <br><h2>Zlecenia do potwierdzenia</h2>
                 </div>
             </div>
         </div>
         <div class="row">
-            @if(Model != null && Model.Count() > 0)
+            @if (Model != null && Model.Count() > 0)
             {
                 <div class="accordion" id="orders">
                     @foreach (var order in Model)
@@ -55,35 +55,31 @@
                                     @if (order.orderProducts != null && order.orderProducts.Count() > 0)
                                     {
                                         <table class="table text-center">
-                                        @foreach (var product in order.orderProducts)
-                                        {
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        Numer usługi: @Html.DisplayFor(p => product.ProductId)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(p => product.Name)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(p => product.Duration) min
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(p => product.Price) zł
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        }
+                                            @foreach (var product in order.orderProducts)
+                                            {
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Numer usługi: @Html.DisplayFor(p => product.ProductId)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(p => product.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(p => product.Duration) min
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(p => product.Price) zł
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            }
                                         </table>
                                         <div class="text-center">
-                                        @if (order.IsConfirmed && !order.IsPaid)
-                                        {
-                                            <a class="btn btn-dark" asp-controller="Order" asp-action="Pay" asp-route-id="@order.Id">Opłać</a>
-                                        }
-                                        @if (!order.IsConfirmed)
-                                        {
-                                            <a class="btn btn-dark" asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id">Anuluj</a>
-                                        }
+                                            @if (!order.IsConfirmed)
+                                            {
+                                                <a class="btn btn-dark" asp-controller="Order" asp-action="Confirm" asp-route-id="@order.Id">Potwierdź</a>
+                                            }
                                         </div>
                                     }
                                 </div>
