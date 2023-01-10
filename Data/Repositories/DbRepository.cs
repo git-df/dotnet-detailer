@@ -41,6 +41,28 @@ namespace Data.Repositories
             }
         }
 
+        public async Task<BaseResponse<int>> EditDataGetId(string sql, object parms)
+        {
+            using (var con = _dapper.CreateConnection())
+            {
+                try
+                {
+                    con.Open();
+                    var data = await con.QuerySingleAsync<int>(sql, parms);
+                    return new BaseResponse<int>() { Data = data };
+                }
+                catch (Exception ex)
+                {
+                    return new BaseResponse<int>()
+                    {
+                        Success = false,
+                        Message = ex.Message,
+                    };
+                }
+                finally { con.Close(); }
+            }
+        }
+
         public async Task<BaseResponse<List<T>>> GetAll(string sql, object parms)
         {
             using (var con = _dapper.CreateConnection())

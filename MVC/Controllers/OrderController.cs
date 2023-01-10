@@ -93,5 +93,94 @@ namespace MVC.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SendOrder(OrderSummaryModel order)
+        {
+            var data = await _orderService.SendOrder(order);
+
+            if (data.Success)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyOrders()
+        {
+            var userid = Int32.Parse(User.FindFirstValue("UserId"));
+            var data = await _orderService.GetMyOrders(userid);
+
+            if (data.Success && data.Data != null)
+            {
+                return View(data.Data);
+            }
+
+            return RedirectToAction("Index", "User");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Pay([FromRoute]int id)
+        {
+            var data = await _orderService.Pay(id);
+
+            if (data.Success)
+            {
+                return View();
+            }
+
+            return RedirectToAction("MyOrders", "Order");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var data = await _orderService.Delete(id);
+
+            return RedirectToAction("MyOrders", "Order");
+        }
+
+        [Authorize(Policy = "MustBeEmployee")]
+        public async Task<IActionResult> OrdersToConfirm()
+        {
+            var data = await _orderService.GetOrdersToConfirm();
+
+            if (data.Success && data.Data != null)
+            {
+                return View(data.Data);
+            }
+
+            return RedirectToAction("Index", "User");
+        }
+
+        [Authorize(Policy = "MustBeEmployee")]
+        public async Task<IActionResult> OrdersToDo()
+        {
+            var data = await _orderService.GetOrdersToDo();
+
+            if (data.Success && data.Data != null)
+            {
+                return View(data.Data);
+            }
+
+            return RedirectToAction("Index", "User");
+        }
+
+        [Authorize(Policy = "MustBeEmployee")]
+        public async Task<IActionResult> OrdersNoPaid()
+        {
+            var data = await _orderService.GetDoneOrdersToPay();
+
+            if (data.Success && data.Data != null)
+            {
+                return View(data.Data);
+            }
+
+            return RedirectToAction("Index", "User");
+        }
     }
 }

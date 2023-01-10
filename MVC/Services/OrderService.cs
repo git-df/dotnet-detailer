@@ -4,6 +4,7 @@ using Data.Repositories.interfaces;
 using Data.Responses;
 using MVC.Models;
 using MVC.Services.Interfaces;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace MVC.Services
 {
@@ -13,13 +14,144 @@ namespace MVC.Services
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IPromocodeRepository _promocodeRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderProductRepository _orderProductRepository;
 
-        public OrderService(IMapper mapper, IProductRepository productRepository, ICategoryRepository categoryRepository, IPromocodeRepository promocodeRepository)
+        public OrderService(IMapper mapper, IProductRepository productRepository, ICategoryRepository categoryRepository, IPromocodeRepository promocodeRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _promocodeRepository = promocodeRepository;
+            _orderRepository = orderRepository;
+            _orderProductRepository = orderProductRepository;
+        }
+
+        public async Task<BaseResponse<int>> Delete(int orderid)
+        {
+            var data = await _orderProductRepository.DeleteOrderProductsByOrderId(orderid);
+            if (data.Success)
+            {
+                await _orderRepository.DeleteOrder(orderid);
+            }
+            return data;
+        }
+
+        public async Task<BaseResponse<List<OrderInListModel>>> GetMyOrders(int userid)
+        {
+            var orders = await _orderRepository.GetOrdersByUserId(userid);
+            var products = await _productRepository.GetAllProducts();
+
+            if (orders.Success && orders.Data != null && products.Success && products.Data != null)
+            {
+                var ordersModel = _mapper.Map<List<OrderInListModel>>(orders.Data);
+
+                foreach (var orderModel in ordersModel)
+                {
+                    var orderProducts = await _orderProductRepository.GetProductsByOrderId(orderModel.Id);
+
+                    if (orderProducts.Success && orderProducts.Data != null)
+                    {
+                        orderModel.orderProducts = _mapper.Map<List<OrderProductInListModel>>(orderProducts.Data);
+
+                        foreach (var product in orderModel.orderProducts)
+                        {
+                            product.Name = products.Data.SingleOrDefault(p => p.Id == product.ProductId).Name;
+                        }
+                    }
+                }
+
+                var ordersModelWithProducts = new List<OrderInListModel>();
+                ordersModelWithProducts.AddRange(ordersModel.Where(o => o.orderProducts.Count() > 0).OrderBy(o => o.Id).Reverse());
+
+                return new BaseResponse<List<OrderInListModel>>() { Data = ordersModelWithProducts };
+            }
+
+            return new BaseResponse<List<OrderInListModel>>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<List<OrderInListModel>>> GetOrdersToDo()
+        {
+            var orders = await _orderRepository.GetAllOrders();
+            var products = await _productRepository.GetAllProducts();
+
+            if (orders.Success && orders.Data != null && products.Success && products.Data != null)
+            {
+                var ordersToDo = _mapper.Map<List<OrderInListModel>>(orders.Data)
+                    .Where(o => o.IsConfirmed && !o.IsDone)
+                    .OrderBy(o => o.Id);
+
+                foreach (var orderToDo in ordersToDo)
+                {
+                    var orderProducts = await _orderProductRepository.GetProductsByOrderId(orderToDo.Id);
+
+                    if (orderProducts.Success && orderProducts.Data != null)
+                    {
+                        orderToDo.orderProducts = _mapper.Map<List<OrderProductInListModel>>(orderProducts.Data);
+
+                        foreach (var product in orderToDo.orderProducts)
+                        {
+                            product.Name = products.Data.SingleOrDefault(p => p.Id == product.ProductId).Name;
+                        }
+                    }
+                }
+
+
+                var response = new List<OrderInListModel>();
+                response.AddRange(ordersToDo);
+
+                return new BaseResponse<List<OrderInListModel>>() { Data = response };
+            }
+
+            return new BaseResponse<List<OrderInListModel>>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<List<OrderInListModel>>> GetOrdersToConfirm()
+        {
+            var orders = await _orderRepository.GetAllOrders();
+            var products = await _productRepository.GetAllProducts();
+
+            if (orders.Success && orders.Data != null && products.Success && products.Data != null)
+            {
+                var ordersToConfirm = _mapper.Map<List<OrderInListModel>>(orders.Data)
+                    .Where(o => !o.IsConfirmed)
+                    .OrderBy(o => o.Id);
+
+                foreach (var orderToConfirm in ordersToConfirm)
+                {
+                    var orderProducts = await _orderProductRepository.GetProductsByOrderId(orderToConfirm.Id);
+
+                    if (orderProducts.Success && orderProducts.Data != null)
+                    {
+                        orderToConfirm.orderProducts = _mapper.Map<List<OrderProductInListModel>>(orderProducts.Data);
+
+                        foreach (var product in orderToConfirm.orderProducts)
+                        {
+                            product.Name = products.Data.SingleOrDefault(p => p.Id == product.ProductId).Name;
+                        }
+                    }
+                }
+
+
+                var response = new List<OrderInListModel>();
+                response.AddRange(ordersToConfirm);
+
+                return new BaseResponse<List<OrderInListModel>>() { Data = response };
+            }
+
+            return new BaseResponse<List<OrderInListModel>>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
         }
 
         public async Task<BaseResponse<OrderProductWithCategoryListModel>> GetProductsToOrder()
@@ -48,6 +180,37 @@ namespace MVC.Services
 
 
             return new BaseResponse<OrderProductWithCategoryListModel>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> Pay(int orderid)
+        {
+            return await _orderRepository.SetPaid(orderid);
+        }
+
+        public async Task<BaseResponse<int>> SendOrder(OrderSummaryModel orderModel)
+        {
+            var order = _mapper.Map<Order>(orderModel);
+
+            var data = await _orderRepository.CreateOrder(order);
+
+            if (data.Success && data.Data != 0)
+            {
+                var orderproducts = _mapper.Map<List<OrderProduct>>(orderModel.OrderProducts);
+
+                foreach (var orderproduct in orderproducts)
+                {
+                    orderproduct.OrderId = data.Data;
+                    await _orderProductRepository.CreateOrderProduct(orderproduct);
+                }
+
+                return new BaseResponse<int>() { Data = data.Data };
+            }
+
+            return new BaseResponse<int>()
             {
                 Success = false,
                 Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
@@ -102,6 +265,46 @@ namespace MVC.Services
             }
 
             return new BaseResponse<List<OrderProductModel>>() { Data = orderproducts, Message = diff.ToString() };
+        }
+
+        public async Task<BaseResponse<List<OrderInListModel>>> GetDoneOrdersToPay()
+        {
+            var orders = await _orderRepository.GetAllOrders();
+            var products = await _productRepository.GetAllProducts();
+
+            if (orders.Success && orders.Data != null && products.Success && products.Data != null)
+            {
+                var ordersNoPaid = _mapper.Map<List<OrderInListModel>>(orders.Data)
+                    .Where(o => !o.IsPaid && o.IsDone)
+                    .OrderBy(o => o.Id);
+
+                foreach (var orderNoPaid in ordersNoPaid)
+                {
+                    var orderProducts = await _orderProductRepository.GetProductsByOrderId(orderNoPaid.Id);
+
+                    if (orderProducts.Success && orderProducts.Data != null)
+                    {
+                        orderNoPaid.orderProducts = _mapper.Map<List<OrderProductInListModel>>(orderProducts.Data);
+
+                        foreach (var product in orderNoPaid.orderProducts)
+                        {
+                            product.Name = products.Data.SingleOrDefault(p => p.Id == product.ProductId).Name;
+                        }
+                    }
+                }
+
+
+                var response = new List<OrderInListModel>();
+                response.AddRange(ordersNoPaid);
+
+                return new BaseResponse<List<OrderInListModel>>() { Data = response };
+            }
+
+            return new BaseResponse<List<OrderInListModel>>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
         }
     }
 }

@@ -22,6 +22,10 @@ namespace MVC.Mapper
             CreateMap<Promocode, PromocodeInListModel>().ReverseMap();
             CreateMap<OrderProductModel, ProductInOrderModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId)).ReverseMap();
+            CreateMap<Order, OrderSummaryModel>().ReverseMap();
+            CreateMap<Order, OrderInListModel>().ReverseMap();
+            CreateMap<OrderProduct, OrderProductModel>().ReverseMap();
+            CreateMap<OrderProduct, OrderProductInListModel>().ReverseMap();
         }
     }
 }

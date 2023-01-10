@@ -15,5 +15,6 @@ namespace Data.Repositories.interfaces
         Task<BaseResponse<List<T>>> GetAll(string sql, object parms);
         Task<BaseResponse<List<T>>> GetFilterAll(string sql, object parms, Expression<Func<T, bool>> filter);
         Task<BaseResponse<int>> EditData(string sql, object parms);
+        Task<BaseResponse<int>> EditDataGetId(string sql, object parms);
     }
 }
