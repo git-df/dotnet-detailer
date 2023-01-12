@@ -23,11 +23,27 @@ namespace MVC.Services
 
         public async Task<BaseResponse<int>> Add(PromocodeAddModel promocode)
         {
-            var data = await _promocodeRepository.Add(_mapper.Map<Promocode>(promocode));
+            var products = await _productRepository.GetAllProducts();
 
-            if (data.Success && data.Data != 0)
+            if (products.Success && products.Data != null)
             {
-                return new BaseResponse<int>() { Data = data.Data };
+                if (products.Data.SingleOrDefault(p => p.Id == promocode.ProductId) != null)
+                {
+                    var data = await _promocodeRepository.Add(_mapper.Map<Promocode>(promocode));
+
+                    if (data.Success && data.Data != 0)
+                    {
+                        return new BaseResponse<int>() { Data = data.Data };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<int>()
+                    {
+                        Success = false,
+                        Message = "Błędne id produktu"
+                    };
+                }
             }
 
             return new BaseResponse<int>()

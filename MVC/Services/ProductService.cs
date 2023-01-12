@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Data.Entity;
 using Data.Repositories.interfaces;
 using Data.Responses;
 using MVC.Models;
@@ -10,20 +11,54 @@ namespace MVC.Services
     {
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductService(IMapper mapper, IProductRepository productRepository)
+        public ProductService(IMapper mapper, IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _mapper = mapper;
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<BaseResponse<int>> Active(int productid)
         {
             var data = await _productRepository.ActiveProduct(productid);
 
-            if (data.Success && data.Data != null)
+            if (data.Success && data.Data != 0)
             {
                 return new BaseResponse<int>() { Data = data.Data };
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> AddProduct(ProductAddModel product)
+        {
+            var category = await _categoryRepository.GetAllCategories();
+
+            if (category.Success && category.Data != null)
+            {
+                if (category.Data.SingleOrDefault(c => c.Id == product.CategoryId) != null)
+                {
+                    var data = await _productRepository.CreateProduct(_mapper.Map<Product>(product));
+
+                    if (data.Success && data.Data != 0)
+                    {
+                        return new BaseResponse<int>() { Data = data.Data };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<int>()
+                    {
+                        Success = false,
+                        Message = "Błędne id kategori"
+                    };
+                }
             }
 
             return new BaseResponse<int>()
@@ -37,7 +72,7 @@ namespace MVC.Services
         {
             var data = await _productRepository.DeActiveProduct(productid);
 
-            if (data.Success && data.Data != null)
+            if (data.Success && data.Data != 0)
             {
                 return new BaseResponse<int>() { Data = data.Data };
             }

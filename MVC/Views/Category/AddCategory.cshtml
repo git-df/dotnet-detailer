@@ -19,10 +19,8 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>Nazwa </p>
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(c => c.Name)
+                                <label>Nazwa </label><br />
+                                @Html.TextBoxFor(c => c.Name)<br />
                             </td>
                         </tr>
                     </tbody>
@@ -30,7 +28,15 @@
 
                 <br />
                 <input type="submit" value="Dodaj" class="btn btn-dark" />
+                <br />
+                <br />
             }
         </div>
+        @if (ViewData["Message"] != null)
+        {
+            <div class="text-center">
+                <p class="text-danger col-12">@ViewData["Message"]</p>
+            </div>
+        }
     </div>
 </section>

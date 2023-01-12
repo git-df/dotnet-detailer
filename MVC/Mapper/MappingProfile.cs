@@ -32,6 +32,7 @@ namespace MVC.Mapper
             CreateMap<Category, CategoryListModel>().ReverseMap();
             CreateMap<Category, CategoryAddModel>().ReverseMap();
             CreateMap<Product, ProductListModel>().ReverseMap();
+            CreateMap<Product, ProductAddModel>().ReverseMap();
         }
     }
 }

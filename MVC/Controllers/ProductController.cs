@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MVC.Models;
 using MVC.Services.Interfaces;
 
 namespace MVC.Controllers
@@ -42,6 +43,27 @@ namespace MVC.Controllers
             var data = await _productService.DeActive(id);
 
             return RedirectToAction("GetProductList", "product");
+        }
+
+        [Authorize(Policy = "MustBeAdmin")]
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<IActionResult> AddProduct(ProductAddModel product)
+        {
+            var data = await _productService.AddProduct(product);
+
+            if (data.Success)
+            {
+                return RedirectToAction("GetProductList", "product");
+            }
+
+            ViewData["Message"] = data.Message;
+            return View();
         }
     }
 }

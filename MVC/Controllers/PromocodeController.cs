@@ -64,9 +64,15 @@ namespace MVC.Controllers
         [Authorize(Policy = "MustBeAdmin")]
         public async Task<IActionResult> Add(PromocodeAddModel promocode)
         {
-            await _promocodeService.Add(promocode);
+            var data = await _promocodeService.Add(promocode);
 
-            return RedirectToAction("GetListForAdmin", "Promocode");
+            if (data.Success)
+            {
+                return RedirectToAction("GetListForAdmin", "Promocode");
+            }
+
+            ViewData["Message"] = data.Message;
+            return View();
         }
     }
 }

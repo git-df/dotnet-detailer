@@ -1,38 +1,50 @@
-﻿@model MVC.Models.OfferUserAddModel
+﻿@model MVC.Models.ProductAddModel
 
 @{
-    ViewData["Title"] = "Dodawanie oferty";
+    ViewData["Title"] = "Dodawanie usługi";
 }
 <section class="section-padding">
     <div class="container col-4 mt-5 mb-5 border rounded bg-light p-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="section-header text-center pb-5">
-                    <br><h2>Dodawanie oferty</h2>
+                    <br><h2>Dodawanie usługi</h2>
                 </div>
             </div>
         </div>
         <div class="text-center">
-            @using (Html.BeginForm("AddOffer", "Offeruser"))
+            @using (Html.BeginForm("AddProduct", "Product"))
             {
                 <table class="mx-auto">
                     <tbody>
                         <tr>
                             <td>
-                                <label>Id użytkownika </label><br />
-                                @Html.TextBoxFor(o => o.UserId, new { @type = "number" })<br />
+                                <p>Nazwa </p>
+                                @Html.TextBoxFor(p => p.Name)
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label>Id usługi </label><br />
-                                @Html.TextBoxFor(o => o.ProductId, new { @type = "number" })<br />
+                                <p>Opis </p>
+                                @Html.TextAreaFor(p => p.Description)
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label>Cena (zł)</label><br />
-                                @Html.TextBoxFor(o => o.Price, new { @type = "number" })<br />
+                                <p>Cena </p>
+                                @Html.TextBoxFor(p => p.Price, new { @type = "number" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Czas (min)</p>
+                                @Html.TextBoxFor(p => p.Duration, new { @type = "number" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Id kategori </p>
+                                @Html.TextBoxFor(p => p.CategoryId, new { @type = "number" })
                             </td>
                         </tr>
                     </tbody>
@@ -52,4 +64,3 @@
         }
     </div>
 </section>
-

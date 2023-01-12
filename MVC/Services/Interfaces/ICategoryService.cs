@@ -7,5 +7,7 @@ namespace MVC.Services.Interfaces
     {
         Task<BaseResponse<List<CategoryListModel>>> GetCategoryList();
         Task<BaseResponse<int>> AddCategory(CategoryAddModel category);
+        Task<BaseResponse<int>> Active(int categoryid);
+        Task<BaseResponse<int>> DeActive(int categoryid);
     }
 }

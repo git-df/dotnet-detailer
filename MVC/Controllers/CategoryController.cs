@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
+using MVC.Services;
 using MVC.Services.Interfaces;
 
 namespace MVC.Controllers
@@ -40,6 +41,22 @@ namespace MVC.Controllers
         public async Task<IActionResult> AddCategory(CategoryAddModel category)
         {
             await _categoryService.AddCategory(category);
+
+            return RedirectToAction("Index", "Category");
+        }
+
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<IActionResult> Active([FromRoute] int id)
+        {
+            var data = await _categoryService.Active(id);
+
+            return RedirectToAction("Index", "Category");
+        }
+
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<IActionResult> DeActive([FromRoute] int id)
+        {
+            var data = await _categoryService.DeActive(id);
 
             return RedirectToAction("Index", "Category");
         }

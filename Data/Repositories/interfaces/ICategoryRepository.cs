@@ -12,5 +12,7 @@ namespace Data.Repositories.interfaces
 	{
 		Task<BaseResponse<List<Category>>> GetAllCategories();
         Task<BaseResponse<int>> CreateCategory(Category category);
+        Task<BaseResponse<int>> ActiveCategory(int categoryid);
+        Task<BaseResponse<int>> DeActiveCategory(int categoryid);
     }
 }

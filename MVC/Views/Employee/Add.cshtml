@@ -5,7 +5,7 @@
 }
 
 <section class="section-padding">
-    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+    <div class="container col-4 mt-5 mb-5 border rounded bg-light p-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="section-header text-center pb-5">
@@ -16,10 +16,29 @@
         <div class="text-center">
             @using (Html.BeginForm("Add", "Employee"))
             {
-                <p>Podaj email pracownika @Html.TextBoxFor(m => m.Email)</p>
+                <table class="mx-auto">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>Email pracownika</label><br />
+                                @Html.TextBoxFor(m => m.Email)<br />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br />
                 <input type="submit" value="Dodaj" class="btn btn-dark" />
+                <br />
+                <br />
             }
         </div>
+        @if (ViewData["Message"] != null)
+        {
+            <div class="text-center">
+                <p class="text-danger col-12">@ViewData["Message"]</p>
+            </div>
+        }
     </div>
 </section>
 

@@ -35,4 +35,13 @@
         public int Duration { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class ProductAddModel
+    {
+        public int CategoryId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public int Duration { get; set; }
+    }
 }

@@ -30,7 +30,7 @@ namespace MVC.Services
 				{
 					var data = new List<CategoryWithProductsPriceListModel>();
 
-                    foreach (var category in categories.Data)
+                    foreach (var category in categories.Data.Where(c => c.IsActive))
                     {
 						data.Add(new CategoryWithProductsPriceListModel()
 						{

@@ -47,9 +47,15 @@ namespace MVC.Controllers
         [Authorize(Policy = "MustBeAdmin")]
         public async Task<IActionResult> AddOffer(OfferUserAddModel offerUser)
         {
-            await _offerUserService.AddOfferUser(offerUser);
+            var data = await _offerUserService.AddOfferUser(offerUser);
 
-            return RedirectToAction("Index", "OfferUser");
+            if (data.Success)
+            {
+                return RedirectToAction("Index", "OfferUser");
+            }
+
+            ViewData["Message"] = data.Message;
+            return View();
         }
     }
 }

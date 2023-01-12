@@ -24,11 +24,39 @@ namespace MVC.Services
 
         public async Task<BaseResponse<int>> AddOfferUser(OfferUserAddModel offerUser)
         {
-            var data = await _offerUserRepository.CreateOferUser(_mapper.Map<OfferUser>(offerUser));
+            var user = await _userRepository.GetUserById(offerUser.UserId);
+            var product = await _productRepository.GetAllProducts();
 
-            if (data.Success && data.Data != 0)
+            if (user.Success && product.Success && product.Data != null)
             {
-                return new BaseResponse<int>() { Data = data.Data };
+                if (user.Data != null)
+                {
+                    if (product.Data.SingleOrDefault(p => p.Id == offerUser.ProductId) != null)
+                    {
+                        var data = await _offerUserRepository.CreateOferUser(_mapper.Map<OfferUser>(offerUser));
+
+                        if (data.Success && data.Data != 0)
+                        {
+                            return new BaseResponse<int>() { Data = data.Data };
+                        }
+                    }
+                    else
+                    {
+                        return new BaseResponse<int>()
+                        {
+                            Success = false,
+                            Message = "Błędne id produktu"
+                        };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<int>()
+                    {
+                        Success = false,
+                        Message = "Błędne id użytkownika"
+                    };
+                }
             }
 
             return new BaseResponse<int>()

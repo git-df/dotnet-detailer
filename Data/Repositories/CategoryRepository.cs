@@ -14,11 +14,23 @@ namespace Data.Repositories
 		public CategoryRepository(DapperDbContext dapper) 
 			: base(dapper) { }
 
+		public async Task<BaseResponse<int>> ActiveCategory(int categoryid)
+		{
+            var sql = "update public.category set isactive = true where id = @categoryid";
+            return await EditData(sql, new { categoryid });
+        }
+
 		public async Task<BaseResponse<int>> CreateCategory(Category category)
 		{
-			var sql = "insert  into public.category (name) values(@Name)";
+			var sql = "insert  into public.category (name, isactive) values(@Name, true)";
 			return await EditData(sql, category);
 		}
+
+		public async Task<BaseResponse<int>> DeActiveCategory(int categoryid)
+		{
+            var sql = "update public.category set isactive = false where id = @categoryid";
+            return await EditData(sql, new { categoryid });
+        }
 
 		public async Task<BaseResponse<List<Category>>> GetAllCategories()
 		{

@@ -163,7 +163,7 @@ namespace MVC.Services
             {
                 OrderProductWithCategoryListModel data = new OrderProductWithCategoryListModel() { CategoryWithProducts = new List<CategoryWithProductsOrderModel>()};
 
-                foreach (var category in categories.Data)
+                foreach (var category in categories.Data.Where(c => c.IsActive))
                 {
 
                     var a = _mapper.Map<List<ProductInOrderModel>>(products.Data.Where(p => p.CategoryId == category.Id && p.IsActive == true));

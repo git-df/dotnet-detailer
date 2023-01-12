@@ -28,13 +28,35 @@ namespace MVC.Services
             {
                 var employee = await _employeeRepository.GetEmployeeByUserId(user.Data.Id);
 
-                if (employee.Success && employee.Data != null)
+                if (employee.Success)
                 {
-                    var data = await _employeeRepository.SetAdminTrue(employee.Data.Id);
-
-                    if (data.Success)
+                    if (employee.Data != null)
                     {
-                        return new BaseResponse<int>() { Data = data.Data };
+                        if (!employee.Data.IsAdmin)
+                        {
+                            var data = await _employeeRepository.SetAdminTrue(employee.Data.Id);
+
+                            if (data.Success)
+                            {
+                                return new BaseResponse<int>() { Data = data.Data };
+                            }
+                        }
+                        else
+                        {
+                            return new BaseResponse<int>()
+                            {
+                                Success = false,
+                                Message = "Ten pracownik ma już prawa administratowa"
+                            };
+                        }
+                    }
+                    else
+                    {
+                        return new BaseResponse<int>()
+                        {
+                            Success = false,
+                            Message = "Nie ma pracownika z takim mailem"
+                        };
                     }
                 }
             }
@@ -50,12 +72,39 @@ namespace MVC.Services
         {
             var user = await _userRepository.GetUserByEmail(employeeModel.Email);
 
-            if (user.Success && user.Data != null)
+            if (user.Success)
             {
-                var data = await _employeeRepository.AddEmployee(
-                    new Employee() { UserId = user.Data.Id, IsAdmin = false });
+                if (user.Data != null)
+                {
+                    var employee = await _employeeRepository.GetEmployeeByUserId(user.Data.Id);
 
-                return new BaseResponse<int>() { Data = data.Data };
+                    if (employee.Success)
+                    {
+                        if (employee.Data == null)
+                        {
+                            var data = await _employeeRepository.AddEmployee(
+                            new Employee() { UserId = user.Data.Id, IsAdmin = false });
+
+                            return new BaseResponse<int>() { Data = data.Data };
+                        }
+                        else
+                        {
+                            return new BaseResponse<int>()
+                            {
+                                Success = false,
+                                Message = "Jest już pracownik z takim mailem"
+                            };
+                        }
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<int>()
+                    {
+                        Success = false,
+                        Message = "Nie ma użytkownika z takim mailem"
+                    };
+                }
             }
 
             return new BaseResponse<int>()
