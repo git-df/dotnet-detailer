@@ -14,6 +14,18 @@ namespace Data.Repositories
         public PromocodeRepository(DapperDbContext dapper) 
             : base(dapper) { }
 
+        public async Task<BaseResponse<int>> Add(Promocode promocode)
+        {
+            var sql = "insert into public.promocode (productid, code, price) values(@ProductId, @Code, @Price)";
+            return await EditData(sql, promocode);
+        }
+
+        public async Task<BaseResponse<int>> Delete(int promocodeid)
+        {
+            var sql = "delete from public.promocode where id = @promocodeid";
+            return await EditData(sql, new { promocodeid });
+        }
+
         public async Task<BaseResponse<List<Promocode>>> GetAllPromocodes()
         {
             var sql = "select * from promocode";

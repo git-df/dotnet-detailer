@@ -27,6 +27,11 @@ namespace MVC.Mapper
             CreateMap<Order, OrderInListModel>().ReverseMap();
             CreateMap<OrderProduct, OrderProductModel>().ReverseMap();
             CreateMap<OrderProduct, OrderProductInListModel>().ReverseMap();
+            CreateMap<Promocode, PromocodeAddModel>().ReverseMap();
+            CreateMap<OfferUserAddModel, OfferUser>().ReverseMap();
+            CreateMap<Category, CategoryListModel>().ReverseMap();
+            CreateMap<Category, CategoryAddModel>().ReverseMap();
+            CreateMap<Product, ProductListModel>().ReverseMap();
         }
     }
 }

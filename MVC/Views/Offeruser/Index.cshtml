@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MVC.Models.OfferUserListModel>
+
+@{
+    ViewData["Title"] = "Oferty indywidualne";
+}
+<section class="section-padding">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    <br><h2>Oferty użytkowników</h2>
+                    <a class="btn btn-dark" asp-controller="Offeruser" asp-action="AddOffer">Dodaj ofertę</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-4">
+                            <p>Produkt</p>
+                        </th>
+                        <th class="col-6">
+                            <p>Użytkownik</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Cena (zł)</p>
+                        </th>
+                        <th class="col-1">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var offer in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(o => offer.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(o => offer.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(o => offer.Price)
+                            </td>
+                            <td>
+                                <a class="btn btn-dark" asp-controller="Offeruser" asp-action="DeleteOffer" asp-route-id="@offer.Id">Usuń</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

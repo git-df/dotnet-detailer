@@ -22,6 +22,7 @@ namespace Data
             services.AddScoped<IPromocodeRepository, PromocodeRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderProductRepository, OrderProductRepository>();
+            services.AddScoped<IOfferUserRepository, OfferUserRepository>();
             return services;
         }
     }

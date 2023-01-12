@@ -12,5 +12,7 @@ namespace Data.Repositories.interfaces
     {
         Task<BaseResponse<List<Promocode>>> GetAllPromocodes();
         Task<BaseResponse<List<Promocode>>> GetPromocodesByCode(string code);
+        Task<BaseResponse<int>> Delete(int promocodeid);
+        Task<BaseResponse<int>> Add(Promocode promocode);
     }
 }

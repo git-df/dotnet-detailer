@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Data.Entity;
 using Data.Repositories.interfaces;
 using Data.Responses;
 using MVC.Models;
@@ -18,6 +19,38 @@ namespace MVC.Services
             _mapper = mapper;
             _promocodeRepository = promocodeRepository;
             _productRepository = productRepository;
+        }
+
+        public async Task<BaseResponse<int>> Add(PromocodeAddModel promocode)
+        {
+            var data = await _promocodeRepository.Add(_mapper.Map<Promocode>(promocode));
+
+            if (data.Success && data.Data != 0)
+            {
+                return new BaseResponse<int>() { Data = data.Data };
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
+        }
+
+        public async Task<BaseResponse<int>> Delete(int promocodeid)
+        {
+            var data = await _promocodeRepository.Delete(promocodeid);
+
+            if (data.Success && data.Data != 0)
+            {
+                return new BaseResponse<int>() { Data = data.Data };
+            }
+
+            return new BaseResponse<int>()
+            {
+                Success = false,
+                Message = "Problem z systemem, prosimy spróbowac za jakiś czas"
+            };
         }
 
         public async Task<BaseResponse<List<PromocodeInListModel>>> GetPromocodelist()

@@ -14,6 +14,12 @@ namespace Data.Repositories
 		public ProductRepository(DapperDbContext dapper) 
 			: base(dapper) { }
 
+		public async Task<BaseResponse<int>> CreateProduct(Product product)
+		{
+			var sql = "insert into public.product (categoryid, name, description, price, duration, isactive) values(@CategoryId, @Name ,@Description ,@Price ,@Duration, true)";
+			return await EditData(sql, product);
+		}
+
 		public async Task<BaseResponse<List<Product>>> GetAllProducts()
 		{
 			var sql = "select * from public.product";

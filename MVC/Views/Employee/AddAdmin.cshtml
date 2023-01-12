@@ -13,8 +13,12 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            
+        <div class="text-center">
+            @using (Html.BeginForm("AddAdmin", "Employee"))
+            {
+                <p>Podaj email pracownika @Html.TextBoxFor(m => m.Email)</p>
+                <input type="submit" value="Dodaj" class="btn btn-dark" />
+            }
         </div>
     </div>
 </section>

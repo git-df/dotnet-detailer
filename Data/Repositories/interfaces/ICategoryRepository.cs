@@ -11,5 +11,6 @@ namespace Data.Repositories.interfaces
 	public interface ICategoryRepository
 	{
 		Task<BaseResponse<List<Category>>> GetAllCategories();
-	}
+        Task<BaseResponse<int>> CreateCategory(Category category);
+    }
 }

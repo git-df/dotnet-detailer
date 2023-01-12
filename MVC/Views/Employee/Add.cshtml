@@ -1,30 +1,25 @@
 ﻿@model MVC.Models.AddEmployeeModel
 
 @{
-    ViewData["Title"] = "Add";
+    ViewData["Title"] = "Dodawanie pracownika";
 }
 
-<h1>Add</h1>
-
-<h4>AddEmployeeModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Add">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+<section class="section-padding">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    <br><h2>Dodawanie pracownika</h2>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="text-center">
+            @using (Html.BeginForm("Add", "Employee"))
+            {
+                <p>Podaj email pracownika @Html.TextBoxFor(m => m.Email)</p>
+                <input type="submit" value="Dodaj" class="btn btn-dark" />
+            }
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</section>
 

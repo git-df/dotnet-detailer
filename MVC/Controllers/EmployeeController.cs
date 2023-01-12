@@ -54,14 +54,9 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddEmployeeModel addEmployee)
         {
-            var data = await _employeeService.GetEmployeelist();
+            await _employeeService.AddEmployee(addEmployee);
 
-            if (data.Success && data.Data != null)
-            {
-                return View(data.Data);
-            }
-
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Index", "Employee");
         }
 
         [Authorize(Policy = "MustBeAdmin")]
@@ -74,14 +69,9 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAdmin(AddEmployeeModel addEmployee)
         {
-            var data = await _employeeService.GetEmployeelist();
+            await _employeeService.AddAdmin(addEmployee);
 
-            if (data.Success && data.Data != null)
-            {
-                return View(data.Data);
-            }
-
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Admins", "Employee");
         }
 
         [Authorize(Policy = "MustBeAdmin")]

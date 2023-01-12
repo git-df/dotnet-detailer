@@ -12,5 +12,6 @@ namespace Data.Repositories.interfaces
 	{
 		Task<BaseResponse<List<Product>>> GetAllProducts();
         Task<BaseResponse<List<Product>>> GetUserProducts(int userid);
+        Task<BaseResponse<int>> CreateProduct(Product product);
     }
 }

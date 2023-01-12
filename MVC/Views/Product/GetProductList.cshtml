@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MVC.Models.ProductListModel>
+
+@{
+    ViewData["Title"] = "Lisa usług";
+}
+<section class="section-padding">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    <br><h2>Lisa usług</h2>
+                    <a class="btn btn-dark" asp-controller="Product" asp-action="AddProduct">Dodaj produkt</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-1">
+                            <p>Id usługi</p>
+                        </th>
+                        <th class="col-3">
+                            <p>Nazwa</p>
+                        </th>
+                        <th class="col-3">
+                            <p>Opis</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Cena (zł)</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Opis (min)</p>
+                        </th>
+                        <th class="col-1">
+                            <p>Aktywny</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(p => product.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(o => product.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(p => product.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(o => product.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(p => product.Duration)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(o => product.IsActive)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

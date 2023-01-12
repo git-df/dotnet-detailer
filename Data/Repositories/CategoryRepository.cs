@@ -14,6 +14,12 @@ namespace Data.Repositories
 		public CategoryRepository(DapperDbContext dapper) 
 			: base(dapper) { }
 
+		public async Task<BaseResponse<int>> CreateCategory(Category category)
+		{
+			var sql = "insert  into public.category (name) values(@Name)";
+			return await EditData(sql, category);
+		}
+
 		public async Task<BaseResponse<List<Category>>> GetAllCategories()
 		{
 			var sql = "select * from public.category";

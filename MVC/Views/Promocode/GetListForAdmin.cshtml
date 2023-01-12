@@ -11,6 +11,7 @@
                 <div class="col-md-12">
                     <div class="section-header text-center pb-5">
                         <h2>Kody promocyjne</h2>
+                        <a class="btn btn-dark" asp-controller="Promocode" asp-action="Add">Dodaj kod</a>
                     </div>
                 </div>
             </div>
@@ -27,6 +28,8 @@
                             <th class="col-1">
                                 <p>Kod</p>
                             </th>
+                            <th class="col-1">
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +44,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(p => item.Code)
+                                </td>
+                                <td>
+                                    <a class="btn btn-dark" asp-controller="Promocode" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
                                 </td>
                             </tr>
                         }
