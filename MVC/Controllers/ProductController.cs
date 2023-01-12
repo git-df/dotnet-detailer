@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVC.Services.Interfaces;
 
 namespace MVC.Controllers
@@ -14,11 +15,7 @@ namespace MVC.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<IActionResult> GetProductList()
         {
             var data = await _productService.GetProducts();
@@ -29,6 +26,22 @@ namespace MVC.Controllers
             }
 
             return RedirectToAction("Index", "User");
+        }
+
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<IActionResult> Active([FromRoute] int id)
+        {
+            var data = await _productService.Active(id);
+
+            return RedirectToAction("GetProductList", "product");
+        }
+
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<IActionResult> DeActive([FromRoute] int id)
+        {
+            var data = await _productService.DeActive(id);
+
+            return RedirectToAction("GetProductList", "product");
         }
     }
 }

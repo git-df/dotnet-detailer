@@ -14,11 +14,23 @@ namespace Data.Repositories
 		public ProductRepository(DapperDbContext dapper) 
 			: base(dapper) { }
 
+		public async Task<BaseResponse<int>> ActiveProduct(int productid)
+		{
+            var sql = "update public.product set isactive = true where id = @productid";
+            return await EditData(sql, new { productid });
+        }
+
 		public async Task<BaseResponse<int>> CreateProduct(Product product)
 		{
 			var sql = "insert into public.product (categoryid, name, description, price, duration, isactive) values(@CategoryId, @Name ,@Description ,@Price ,@Duration, true)";
 			return await EditData(sql, product);
 		}
+
+		public async Task<BaseResponse<int>> DeActiveProduct(int productid)
+		{
+            var sql = "update public.product set isactive = false where id = @productid";
+            return await EditData(sql, new { productid });
+        }
 
 		public async Task<BaseResponse<List<Product>>> GetAllProducts()
 		{

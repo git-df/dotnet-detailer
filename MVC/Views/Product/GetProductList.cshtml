@@ -20,7 +20,7 @@
                         <th class="col-1">
                             <p>Id usługi</p>
                         </th>
-                        <th class="col-3">
+                        <th class="col-2">
                             <p>Nazwa</p>
                         </th>
                         <th class="col-3">
@@ -34,6 +34,9 @@
                         </th>
                         <th class="col-1">
                             <p>Aktywny</p>
+                        </th>
+                        <th class="col-1">
+
                         </th>
                     </tr>
                 </thead>
@@ -58,6 +61,16 @@
                             </td>
                             <td>
                                 @Html.CheckBoxFor(o => product.IsActive)
+                            </td>
+                            <td>
+                                @if (product.IsActive)
+                                {
+                                    <a class="btn btn-dark" asp-controller="Product" asp-action="DeActive" asp-route-id="@product.Id">Dezaktywuj</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark" asp-controller="Product" asp-action="Active" asp-route-id="@product.Id">Aktywuj</a>
+                                }
                             </td>
                         </tr>
                     }
