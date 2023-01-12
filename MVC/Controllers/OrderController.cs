@@ -91,6 +91,7 @@ namespace MVC.Controllers
                 }
             }
 
+            ViewData["Message"] = "Musisz wybrać produkty";
             return RedirectToAction("Index");
         }
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Podsumowanie";
 }
 @using (Html.BeginForm("SendOrder", "Order")) {
-<section class="section-padding">
+    <section class="p-3 pt-5">
     <div class="container mt-5 mb-5 border rounded bg-light p-3">
         <div class="row">
             <div class="col-md-12">
@@ -56,15 +56,15 @@
         </div>
     </div>
 </section>
-<section class="section-padding">
-    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+    <section class="p-3">
+    <div class="container col-4 mt-5 mb-5 border rounded bg-light p-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="section-header text-center pb-5">
                     @Html.HiddenFor(p => p.UserId)
-                    <br><h2>Potwierdź zlecenie</h2>
-                    <h5>Łączny koszt @Html.TextBoxFor(o => o.Price, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } ) zł</h5>
-                    <h5>Łączny czas @Html.TextBoxFor(o => o.Duration, new { @class = "bg-light border-0", @readonly = "true", @size = 10 } ) min</h5><br>
+                    <br><h2>Potwierdź zlecenie</h2><br><br>
+                        <h5>Łączny koszt (zł)<br><br> @Html.TextBoxFor(o => o.Price, new { @class = "bg-light border-0", @readonly = "true", @size = 5, @style = "text-align: center;" } )</h5>
+                        <h5>Łączny czas (min)<br><br> @Html.TextBoxFor(o => o.Duration, new { @class = "bg-light border-0", @readonly = "true", @size = 5, @style = "text-align: center;" } )</h5><br>
                     <input type="submit" value="Potwierdż" class="btn btn-dark" />
                 </div>
             </div>

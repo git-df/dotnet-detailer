@@ -3,13 +3,25 @@
 @{
     ViewData["Title"] = "Cennik";
 }
+<section class="p-3 pt-5">
+    <div class="container mt-5 mb-5 border rounded bg-light p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center pb-5">
+                    <br><h1>Cenik</h1>
+                    <p>Aby złożyć zamówienie, zaloguj się</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 @if (Model != null)
 {
     @foreach (var category in Model)
     {
         if (category.Products.Count > 0)
         {
-            <section class="section-padding">
+            <section class="p-3">
                 <div class="container mt-5 mb-5 border rounded bg-light p-3">
                     <div class="row">
                         <div class="col-md-12">
